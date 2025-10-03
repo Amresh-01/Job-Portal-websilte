@@ -31,6 +31,4 @@ export const protect = async (req, res, next) => {
   }
 };
 
-export const forgotPassword = async (req, res) => {
-  
-};
+export const forgotPassword = async (req, res) => {};
