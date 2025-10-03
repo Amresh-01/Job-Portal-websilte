@@ -28,6 +28,15 @@ const userSchema = new mongoose.Schema(
       enum: ["recruiter", "applicant"],
       required: true,
     },
+    refreshToken: {
+      type: String,
+    }, // store latest refresh token 
+    resetPasswordToken: {
+      typpe: String,
+    },
+    resetPasswordExpires: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );
