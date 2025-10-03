@@ -63,4 +63,52 @@ export const login = async (req, res) => {
 };
 
 // logout
+
 export const logout = async (req, res) => {};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Reset Email
+
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await user.findOne({ email });
+    if (!user)
+      return res.status(404).json({
+        msg: "User not found",
+      });
+
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    user.resetPasswordToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+    user.resetPasswordExpires = Date.now() + 10 * 60 * 1000;
+    await user.save();
+
+    const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+    await sendResetEmail(user.email, resetUrl);
+
+    res.json({ msg: "Password reset email sent" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      msg: "Server Error",
+    });
+  }
+};
