@@ -1,50 +1,89 @@
 import Job from "../models/job.model.js";
 
 export const listjobs = async (req, res) => {
-  const jobs = await job.find().populate("posted_by", "username email"); // Mongoose me agar tumne posted_by field reference ke roop me banaya hai (ref: "User"), to DB me wo sirf user ka ID store hota hai.
-  req.json(jobs);
+  try {
+    const jobs = await Job.find().populate("posted_by", "username email"); // Mongoose me agar tumne posted_by field reference ke roop me banaya hai (ref: "User"), to DB me wo sirf user ka ID store hota hai.
+    res.json(jobs);
+  } catch (error) {
+    console.error("Error fetching jobs..", error);
+    return res.status(500).json({ message: "Failed to fetch jobs" });
+  }
 };
 
 export const createjob = async (req, res) => {
-  const { title, description, company, location } = req.body;
-  if (!title || !description || !company || !location) {
-    return res.status(400).json({
-      message: "Missing fields",
+  try {
+    const { title, description, company, location } = req.body;
+    if (!title || !description || !company || !location) {
+      return res.status(400).json({
+        message: "Missing fields",
+      });
+    }
+
+    const job = new Job({
+      title,
+      description,
+      company,
+      location,
+      posted_by: req.user._id,
+    });
+    await job.save(); // Database mai new save ho jaega.
+    return res.status(201).json(job);
+  } catch (error) {
+    console.error("Error in creating job", error);
+    return res.status(500).json({
+      msg: "job not created..",
     });
   }
-
-  const jobs = new jobs({
-    title,
-    description,
-    company,
-    location,
-    posted_by: req.user._id,
-  });
-  await jobs.save(); // Database mai new save ho jaega.
-  req.json(jobs);
 };
 
 export const getjob = async (req, res) => {
-  const Job = await Job.findById(req.params.id).populate(
-    "posted_by",
-    "username email"
-  );
-  if (!Job)
-    return res.status(401).json({
-      msg: "Not found",
-    });
-  res.json(Job);
+  try {
+    const job = await Job.findById(req.params.id).populate(
+      "posted_by",
+      "username email"
+    );
+    if (!job)
+      return res.status(404).json({
+        msg: " Job not found",
+      });
+    return res.status(201).json(job);
+  } catch (error) {
+    console.error("Error in fetching Single Job", error);
+    return res.status(500).json({ msg: "Error fetching job" });
+  }
 };
 
-export const updateJob = async (res, req) => {
-  const job = req.job;
-  object.assign(job, req.body);
-  await job.save();
-  req.json(job);
+export const updateJob = async (req, res) => {
+  try {
+    const job = req.job;
+    if (!job)
+      return res.status(404).json({
+        message: "Job not found",
+      });
+
+    const allowedUpdates = ["title", "description", "location"];
+    allowedUpdates.forEach((field) => {
+      if (req.body[field] !== undefined) {
+        job[field] = req.body[field];
+      }
+    });
+
+    await job.save();
+
+    return res.json(job);
+  } catch (error) {
+    console.error("Error updating job:", error);
+    return res.status(500).json({ msg: "Error updating job" });
+  }
 };
 
 export const deleteJob = async (req, res) => {
-  const job = req.job;
-  await job.remove();
-  res.json({ msg: "job deleted successfully" });
+  try {
+    const job = req.job;
+    await job.remove();
+    res.json({ msg: "job deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting job:", error);
+    return res.status(500).json({ msg: "Error deleting job" });
+  }
 };

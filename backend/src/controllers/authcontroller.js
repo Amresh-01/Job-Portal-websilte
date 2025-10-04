@@ -21,7 +21,7 @@ const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 // Helper Functions
 function signAccessToken(user) {
   return jwt.sign({ sub: user._id, role: user.role }, JWT_ACCESS_SECRET, {
-    expiresIn: ACCESS_TOKEN_EXPIRES || "15m",
+    expiresIn: ACCESS_TOKEN_EXPIRES || "1h",
   });
 }
 
@@ -74,6 +74,11 @@ export const loginUser = async (req, res) => {
 
     const accessToken = signAccessToken(user);
     const refreshToken = signRefreshToken(user);
+
+    console.log("Access Token:", accessToken);
+    const decoded = jwt.decode(accessToken);
+    console.log("Decoded token:", decoded);
+    console.log("Current timestamp:", Math.floor(Date.now() / 1000));
 
     res.json({
       message: "Login successful",
