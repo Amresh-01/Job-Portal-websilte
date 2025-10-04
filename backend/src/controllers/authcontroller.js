@@ -1,8 +1,11 @@
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 import crypto from "crypto";
 import { OAuth2Client } from "google-auth-library";
 import User from "../models/user.model.js";
 import { sendResetEmail } from "../utils/sendmail.js";
+
+dotenv.config();
 
 const {
   JWT_ACCESS_SECRET,
@@ -57,6 +60,10 @@ export const loginUser = async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password)
       return res.status(400).json({ message: "Missing required fields" });
+
+    if (!JWT_ACCESS_SECRET || !JWT_REFRESH_SECRET) {
+      throw new Error("JWT secrets are not defined in environment variables!");
+    }
 
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: "User not found" });
