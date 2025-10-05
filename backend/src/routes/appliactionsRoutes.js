@@ -15,7 +15,7 @@ router.use(protect);
 
 router.get("/", listUserApplications);
 router.post("/", createApplication);
-router.get("/:id", applicationOwnerOnly, getApplication);
+router.get("/:id", getApplication);
 router.put("/:id", applicationOwnerOnly, updateApplication);
 router.patch("/:id", applicationOwnerOnly, updateApplication);
 router.delete("/:id", applicationOwnerOnly, deleteApplication);

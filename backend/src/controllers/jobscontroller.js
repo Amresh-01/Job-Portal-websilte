@@ -79,8 +79,7 @@ export const updateJob = async (req, res) => {
 
 export const deleteJob = async (req, res) => {
   try {
-    const job = req.job;
-    await job.remove();
+    await Job.findByIdAndDelete(req.params.id);
     res.json({ msg: "job deleted successfully" });
   } catch (error) {
     console.error("Error deleting job:", error);
