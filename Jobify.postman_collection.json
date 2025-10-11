@@ -8,15 +8,12 @@
 	"item": [
 		{
 			"name": "Register",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\" : \"Amresh\",\r\n    \"email\" : \"amre@123\",\r\n    \"password\" : 123,\r\n    \"role\" :  \"applicant\"\r\n}",
+					"raw": "{\r\n    \"username\": \"Recruiter4\",\r\n    \"email\": \"recruiter4@gmail.com\",\r\n    \"password\": \"Test@1234\",\r\n    \"role\": \"recruiter\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -24,12 +21,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/auth/register",
-					"protocol": "http",
+					"raw": "https://jobify-v1ew.onrender.com/api/auth/register",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"jobify-v1ew",
+						"onrender",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"auth",
@@ -43,15 +41,30 @@
 			"name": "login",
 			"request": {
 				"method": "POST",
-				"header": []
-			},
-			"response": []
-		},
-		{
-			"name": "GoogleLogin",
-			"request": {
-				"method": "POST",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n     \"email\": \"recruiter4@gmail.com\",\r\n    \"password\": \"Test@1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jobify-v1ew.onrender.com/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"jobify-v1ew",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
 			},
 			"response": []
 		},
@@ -59,7 +72,29 @@
 			"name": "Forgot-Password",
 			"request": {
 				"method": "POST",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"amre93209@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/forgot-password",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"forgot-password"
+					]
+				}
 			},
 			"response": []
 		},
@@ -105,73 +140,303 @@
 		},
 		{
 			"name": "Listjobs",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OGU5ZjdlNmFhNGRiNjQ2NmVjNzQ2MWQiLCJyb2xlIjoicmVjcnVpdGVyIiwiaWF0IjoxNzYwMTYzODM5LCJleHAiOjE3NjAxNjc0Mzl9.yA1YsclLA2G_pscHGIwH7u7QqHJegh8EUsKLS1mV2FI",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://jobify-v1ew.onrender.com/api/jobs/",
+					"protocol": "https",
+					"host": [
+						"jobify-v1ew",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"jobs",
+						""
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "getjobs_by_id",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OGU5ZjdlNmFhNGRiNjQ2NmVjNzQ2MWQiLCJyb2xlIjoicmVjcnVpdGVyIiwiaWF0IjoxNzYwMTYzODM5LCJleHAiOjE3NjAxNjc0Mzl9.yA1YsclLA2G_pscHGIwH7u7QqHJegh8EUsKLS1mV2FI",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "https://jobify-v1ew.onrender.com/api/jobs/68e9f88baa4db6466ec74621",
+					"protocol": "https",
+					"host": [
+						"jobify-v1ew",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"jobs",
+						"68e9f88baa4db6466ec74621"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Update_jobs",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OGU5ZjdlNmFhNGRiNjQ2NmVjNzQ2MWQiLCJyb2xlIjoicmVjcnVpdGVyIiwiaWF0IjoxNzYwMTYzODM5LCJleHAiOjE3NjAxNjc0Mzl9.yA1YsclLA2G_pscHGIwH7u7QqHJegh8EUsKLS1mV2FI",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PUT",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\" : \"Senior Backend Developer , AI integrated , Devops also.\",\r\n    \"description\" : \"A well candidate with well knowledge of all libraries of Python and MERN stack developer.\",\r\n    \"location\" : \"Gurgao The Mellinium city\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jobify-v1ew.onrender.com/api/jobs/68e9f88baa4db6466ec74621",
+					"protocol": "https",
+					"host": [
+						"jobify-v1ew",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"jobs",
+						"68e9f88baa4db6466ec74621"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "delete_job",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OGU5ZjdlNmFhNGRiNjQ2NmVjNzQ2MWQiLCJyb2xlIjoicmVjcnVpdGVyIiwiaWF0IjoxNzYwMTYzODM5LCJleHAiOjE3NjAxNjc0Mzl9.yA1YsclLA2G_pscHGIwH7u7QqHJegh8EUsKLS1mV2FI",
+							"type": "string"
+						}
+					]
+				},
 				"method": "DELETE",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "https://jobify-v1ew.onrender.com/api/jobs/68e9f88baa4db6466ec74621",
+					"protocol": "https",
+					"host": [
+						"jobify-v1ew",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"jobs",
+						"68e9f88baa4db6466ec74621"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "createApplication",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OGU5ZjIyZGZhMDQ0YTIxYWQ3NmRlNTEiLCJyb2xlIjoiYXBwbGljYW50IiwiaWF0IjoxNzYwMTYyMzgxLCJleHAiOjE3NjAxNjU5ODF9.Zc1Gfe59wPMKW5iUf10KGUyLAUNqI4CGYhqxcBSLFx0",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"job_listing\": \"68e155443b2c095a19ff1879\",\r\n  \"resume_link\": \"https://drive.google.com/file/d/xyz/view?usp=sharing\",\r\n  \"cover_letter\": \"I’m very interested in this position of DATA ANALYST and believe my skills match the requirements.\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jobify-v1ew.onrender.com/api/application/",
+					"protocol": "https",
+					"host": [
+						"jobify-v1ew",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"application",
+						""
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "listUserApplications",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OGU5ZjIyZGZhMDQ0YTIxYWQ3NmRlNTEiLCJyb2xlIjoiYXBwbGljYW50IiwiaWF0IjoxNzYwMTYyMzgxLCJleHAiOjE3NjAxNjU5ODF9.Zc1Gfe59wPMKW5iUf10KGUyLAUNqI4CGYhqxcBSLFx0",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jobify-v1ew.onrender.com/api/application/",
+					"protocol": "https",
+					"host": [
+						"jobify-v1ew",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"application",
+						""
+					]
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "getApplication",
+			"name": "Update_Application",
 			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
-		},
-		{
-			"name": "Update_application",
-			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OGU5ZjIyZGZhMDQ0YTIxYWQ3NmRlNTEiLCJyb2xlIjoiYXBwbGljYW50IiwiaWF0IjoxNzYwMTYyMzgxLCJleHAiOjE3NjAxNjU5ODF9.Zc1Gfe59wPMKW5iUf10KGUyLAUNqI4CGYhqxcBSLFx0",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PUT",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"resume_link\": \"https://drive.google.com/file/d/newUpdated/view?usp=sharing\",\r\n  \"cover_letter\": \"Updated cover letter with more details.\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jobify-v1ew.onrender.com/api/application/68e9f6ecaa4db6466ec74614",
+					"protocol": "https",
+					"host": [
+						"jobify-v1ew",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"application",
+						"68e9f6ecaa4db6466ec74614"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "DeleteApplication",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OGU5ZjIyZGZhMDQ0YTIxYWQ3NmRlNTEiLCJyb2xlIjoiYXBwbGljYW50IiwiaWF0IjoxNzYwMTYyMzgxLCJleHAiOjE3NjAxNjU5ODF9.Zc1Gfe59wPMKW5iUf10KGUyLAUNqI4CGYhqxcBSLFx0",
+							"type": "string"
+						}
+					]
+				},
 				"method": "DELETE",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "https://jobify-v1ew.onrender.com/api/application/68e9f346fa044a21ad76de58",
+					"protocol": "https",
+					"host": [
+						"jobify-v1ew",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"application",
+						"68e9f346fa044a21ad76de58"
+					]
+				}
 			},
 			"response": []
 		}
