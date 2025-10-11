@@ -10,7 +10,10 @@ export const jobOwnerOnly = async (req, res, next) => {
         msg: "Job not found",
       });
     if (job.posted_by.toString() !== req.user._id.toString())
-      return res.status(403).json({ message: "Forbidden" });
+      return res.status(403).json({
+        message:
+          "Forbidden... An unauthorized person to update and delete the jobs.",
+      });
     req.job = job;
     next();
   } catch (error) {
@@ -30,7 +33,10 @@ export const applicationOwnerOnly = async (req, res, next) => {
         msg: "Application not found",
       });
     if (application.applicant.toString() !== req.user._id.toString())
-      return res.status(403).json({ message: "Forbidden" });
+      return res.status(403).json({
+        message:
+          "Forbidden... An unauthorized person to update and delete the application.",
+      });
     req.application = application;
     next();
   } catch (error) {
