@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import crypto from "crypto";
-import { OAuth2Client } from "google-auth-library";
 import User from "../models/user.model.js";
 import { sendResetEmail } from "../utils/sendmail.js";
+import passport from "../config/passport.js";
 
 dotenv.config();
 
@@ -14,9 +14,8 @@ const {
   REFRESH_TOKEN_EXPIRES,
   GOOGLE_CLIENT_ID,
   PASSWORD_RESET_TOKEN_EXP,
+  GOOGLE_CLIENT_SECRET,
 } = process.env;
-
-const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 // Helper Functions
 function signAccessToken(user) {
@@ -138,52 +137,22 @@ export const forgotPassword = async (req, res) => {
 };
 
 //  GOOGLE LOGIN
-export const googleLogin = async (req, res) => {
-  const { idToken } = req.body;
 
-  if (!idToken) return res.status(400).json({ message: "ID token required" });
-
+export const googleCallback = async (req, res) => {
   try {
-    const ticket = await googleClient.verifyIdToken({
-      idToken,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
+    const user = req.user;
 
-    const payload = ticket.getPayload();
-    const { email, name } = payload;
-
-    // Check if user already exists
-    let user = await User.findOne({ email });
-    if (!user) {
-      // If not, create a new user
-      user = new User({
-        username: name,
-        email,
-        password: crypto.randomBytes(32).toString("hex"), // random password
-        role: "user",
-      });
-      await user.save();
-    }
-
-    // Generate JWT tokens
     const accessToken = signAccessToken(user);
     const refreshToken = signRefreshToken(user);
 
-    res.json({
-      message: "Google login successful",
-      accessToken,
-      refreshToken,
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        role: user.role,
-      },
-    });
+    user.refreshToken = refreshToken;
+    await user.save();
+
+    res.redirect(
+      `http://localhost:8080/google-success?accessToken=${accessToken}&refreshToken=${refreshToken}`
+    );
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({ message: "Google login failed", error: err.message });
+    res.status(500).json({ message: "Google login failed" });
   }
 };

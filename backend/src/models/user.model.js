@@ -15,10 +15,22 @@ const userSchema = new mongoose.Schema(
       required: true,
       lowercase: true,
       trim: true, // trailing spaces ko delete kar deta hai ex- "    Amresh   " -->   "Amresh"
+      match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     },
     password: {
       type: String,
-      required: true,
+      required: function () {
+        return !this.googleId;
+      },
+      validate: {
+        validator: function (v) {
+          return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+            v
+          );
+        },
+        message:
+          "Password must be ar leasr 8 characters long and include uppercase, lowercase, number, and special character",
+      },
     },
     googleId: {
       type: String,
@@ -42,7 +54,7 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+  if (!this.isModified("password" || !this.password)) return next();
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
   next();

@@ -5,17 +5,33 @@ import cors from "cors";
 import authRoutes from "./src/routes/authRoutes.js";
 import jobsRoutes from "./src/routes/jobsRoutes.js";
 import applicationsRoutes from "./src/routes/appliactionsRoutes.js";
+import passport from "./src/config/passport.js";
+import session from "express-session";
 
 dotenv.config();
 
 const app = express();
 const PORT = 8080;
 
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+
 app.use(express.json());
+app.use(
+  session({
+    secret: "someSecretKey",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get("/", (req, res) => {
   res.send("Job portal backend is running");
+});
+
+app.use("/google-success", (req, res) => {
+  res.send("Google Login Succesfully.");
 });
 
 app.use("/api/auth", authRoutes);
